@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends Component {
+  state = {
+    string: "Change",
+    monsters: [
+      { name: "Frankenstein", id: 1 },
+      { name: "Dracula", id: 2 },
+      { name: "Godzila", id: 3 },
+      { name: "Rodan", id: 4 }
+    ]
+  };
+  render() {
+    const { monsters } = this.state;
+    return (
+      <div className="App">
+        <p>{this.state.string}</p>
+        <button
+          onClick={() =>
+            this.setState({ string: "This is a journey into sound!" })
+          }
+          className="btn btn-primary"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          Change Text
+        </button>
+        <br />
+        <ul className="list-group m-2">
+          {monsters.map(monster => (
+            <li className="list-group-item" key={monster.id}>
+              {monster.name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default App;
