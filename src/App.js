@@ -1,37 +1,38 @@
 import React, { Component } from "react";
 import "./App.css";
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 
 class App extends Component {
   state = {
-    string: "Change",
-    monsters: [
-      { name: "Frankenstein", id: 1 },
-      { name: "Dracula", id: 2 },
-      { name: "Godzila", id: 3 },
-      { name: "Rodan", id: 4 }
-    ]
+    monsters: [],
+    searchField: ""
   };
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(users => this.setState({ monsters: users }))
+      .catch(error => console.log(error));
+  }
+
+  handleChange = e => {
+    this.setState({ searchField: e.target.value });
+  };
+
   render() {
-    const { monsters } = this.state;
+    const { monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter(monster =>
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );
     return (
       <div className="App">
-        <p>{this.state.string}</p>
-        <button
-          onClick={() =>
-            this.setState({ string: "This is a journey into sound!" })
-          }
-          className="btn btn-primary"
-        >
-          Change Text
-        </button>
-        <br />
-        <ul className="list-group m-2">
-          {monsters.map(monster => (
-            <li className="list-group-item" key={monster.id}>
-              {monster.name}
-            </li>
-          ))}
-        </ul>
+        <h1>Monsters Rolodex</h1>
+        <SearchBox
+          placholder="search monsters"
+          handleChange={this.handleChange}
+        />
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
