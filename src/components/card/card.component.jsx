@@ -6,7 +6,7 @@ const Card = props => {
   return (
     <div className="card-container">
       <img
-        src={`https://robohash.org/${monster.id}?set=set2&size=210x210`}
+        src={`https://robohash.org/${monster.id}?set=set2&size=300x300`}
         alt="monster"
       />
       <h2>{monster.name}</h2>
